@@ -1,7 +1,4 @@
-#Frank McMorrow
-#Globe Hopper (A level project)
-
-#importing required modules and initialising the mixer pygame module
+import asyncio
 import random
 import pygame
 from pygame import *
@@ -98,7 +95,6 @@ class Game:
     if mosquito_collision:
       self.playgame = False
 
-          
     #checking for player - platform collision only if player moving down on y
     if self.tourist.vel.y > 0:
       collide = pygame.sprite.spritecollide(self.tourist, self.platforms, False)
@@ -305,15 +301,14 @@ class Mosquito(pygame.sprite.Sprite):
     #kills if below screen
     if self.rect.top >= height:
       self.kill()
-      
-#creates game object   
-game = Game()
-game.startscreen()
-#main loop that checks the game is running
-while game.running:
 
-  game.newgame()
-  game.gameloop()
-  game.gameoverscreen()
+async def main():
+    game = Game()
+    game.startscreen()
+    while game.running:
+        game.newgame()
+        game.gameloop()
+        game.gameoverscreen()
+        await asyncio.sleep(0)  # Allow other tasks to run
 
-pygame.quit()
+asyncio.run(main())
